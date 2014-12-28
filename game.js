@@ -530,7 +530,7 @@ BasicGame.Game.prototype = {
     this.score += score;
     this.scoreText.text = this.score;
 
-    if (this.score >= 100 && this.bossPool.countDead() == 1) {
+    if (this.score >= 20000 && this.bossPool.countDead() == 1) {
       this.spawnBoss();
     }
   },

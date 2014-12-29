@@ -36,6 +36,7 @@ BasicGame.Game.prototype = {
     this.sea.autoScroll(0, BasicGame.SEA_SCROLL_SPEED);
     // test for github
     // dd
+    // dd
   },
 
   setupPlayer: function () {

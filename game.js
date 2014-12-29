@@ -34,6 +34,8 @@ BasicGame.Game.prototype = {
   setupBackground: function () {
     this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
     this.sea.autoScroll(0, BasicGame.SEA_SCROLL_SPEED);
+    // test for github
+    // dd
   },
 
   setupPlayer: function () {

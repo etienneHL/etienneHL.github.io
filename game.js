@@ -13,6 +13,7 @@ BasicGame.Game.prototype = {
     this.setupExplosions();
     this.setupText();
     this.setupPlayerIcons();
+    this.setupBombs();
     this.setupAudio();
   },  
 
@@ -34,9 +35,6 @@ BasicGame.Game.prototype = {
   setupBackground: function () {
     this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
     this.sea.autoScroll(0, BasicGame.SEA_SCROLL_SPEED);
-    // test for github
-    // dd
-    // dd
   },
 
   setupPlayer: function () {
@@ -223,7 +221,25 @@ BasicGame.Game.prototype = {
       life.scale.setTo(0.5, 0.5);
       life.anchor.setTo(0.5, 0.5);
     }
-  },  
+  }, 
+
+  setupBombs: function() {
+
+
+    this.bombBlast = this.add.sprite(0, 0, 'bombBlast');
+    this.bombBlast.exists = false;
+    this.bombEffectUntil = -1;
+    //this.bombBlast.anchor.setTo(0.5, 0.5);
+    //
+    this.bombsPool = this.add.group();
+    var firstBombIconX = 0 + 30;
+    for (var i = 0 ; i < BasicGame.PLAYER_BOMBS; i++) {
+       var bomb = this.bombsPool.create(firstBombIconX + (30 * i), 30, 'bombIcon');
+       bomb.anchor.setTo(0.5, 0.5);
+       
+    }
+   
+  }, 
 
   setupAudio: function () {
     this.explosionSFX = this.add.audio('explosion');
@@ -384,8 +400,18 @@ BasicGame.Game.prototype = {
         this.fire();
       }
     }
+
+    if (this.input.keyboard.isDown(Phaser.Keyboard.X)) {
+      this.shootBomb();
+    }
   },
   processDelayedEffects: function () {
+    if (this.time.now < this.bombEffectUntil) {
+      this.bombBlast.exists = !this.bombBlast.exists;
+    }
+    else {
+      this.bombBlast.exists = false;
+    }
     if (this.instructions.exists && this.time.now > this.instExpire) {
       this.instructions.destroy();
     }
@@ -579,4 +605,12 @@ BasicGame.Game.prototype = {
     this.boss.body.velocity.y = BasicGame.BOSS_Y_VELOCITY;
     this.boss.play('fly');
   },
+
+  shootBomb: function() {
+    if (this.time.now > this.bombEffectUntil) {
+      this.bombEffectUntil = this.time.now + 200;
+      this.bombBlast.exists = true;
+      
+    }
+  }
 }

@@ -42,7 +42,7 @@ var BasicGame = {
 
   PLAYER_BOMBS: 3,
 
-  BOMB_DAMAGE: 5
+  BOMB_DAMAGE: 50
 };
 
 BasicGame.Boot = function (game) {

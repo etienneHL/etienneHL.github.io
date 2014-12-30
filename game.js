@@ -227,6 +227,7 @@ BasicGame.Game.prototype = {
     this.bombBlast = this.add.sprite(0, 0, 'bombBlast');
     this.bombBlast.exists = false;
     this.bombEffectUntil = -1;
+    this.physics.enable(this.bombBlast, Phaser.Physics.ARCADE);
     //this.bombBlast.anchor.setTo(0.5, 0.5);
     //
     this.bombsPool = this.add.group();
@@ -274,12 +275,38 @@ BasicGame.Game.prototype = {
       this.physics.arcade.overlap(
         this.bulletPool, this.bossPool, this.enemyHit, null, this
       );
+
+      this.physics.arcade.overlap(
+        this.bombBlast, this.bossPool, this.enemyHitBomb, null, this
+      );
     }
 
     this.physics.arcade.overlap(
       this.player, this.bossPool, this.playerHit, null, this
     );
 
+    this.physics.arcade.overlap(
+      this.bombBlast, this.bulletPool, this.destroySprite, null, this
+    );
+
+    this.physics.arcade.overlap(
+      this.bombBlast, this.enemyPool, this.enemyHitBomb, null, this
+    );
+
+    this.physics.arcade.overlap(
+      this.bombBlast, this.shooterPool, this.enemyHitBomb, null, this
+    );
+
+    this.physics.arcade.overlap(
+      this.bombBlast, this.enemyBulletPool, this.destroySprite, null, this
+    );
+
+
+
+  },
+
+  destroySprite: function(bombBlast, sprite) {
+    sprite.kill();
   },
   spawnEnemies: function () {
     if (this.nextEnemyAt < this.time.now && this.enemyPool.countDead() > 0) {
@@ -463,6 +490,10 @@ BasicGame.Game.prototype = {
 
   },
 
+  enemyHitBomb: function(bomb, enemy) {
+    this.damageEnemy(enemy, BasicGame.BOMB_DAMAGE);
+  },
+
   fire: function() {
     if (!this.player.alive || this.nextShotAt > this.time.now) {
       return;
@@ -556,7 +587,7 @@ BasicGame.Game.prototype = {
     this.score += score;
     this.scoreText.text = this.score;
 
-    if (this.score >= 20000 && this.bossPool.countDead() == 1) {
+    if (this.score >= 100 && this.bossPool.countDead() == 1) {
       this.spawnBoss();
     }
   },
@@ -605,10 +636,15 @@ BasicGame.Game.prototype = {
 
   shootBomb: function() {
     if (this.time.now > this.bombEffectUntil) {
-      this.bombEffectUntil = this.time.now + 200;
-      this.bombBlast.exists = true;
 
-      this.enemyPool.forEach(damageEnemy, this, true, BOMB_DAMAGE)
+
+      //this.enemyPool.forEach(this.damageEnemy, this, true, BasicGame.BOMB_DAMAGE);
+      var bomb = this.bombsPool.getFirstAlive();
+      if (bomb !== null) {
+        bomb.kill();
+        this.bombEffectUntil = this.time.now + 250;
+        this.bombBlast.exists = true;
+      }
       
     }
   }

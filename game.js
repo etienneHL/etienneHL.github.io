@@ -7,7 +7,12 @@ BasicGame.Game.prototype = {
 
   create: function () {
     this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-    this.input.onDown.add(this.goFull, this);
+    this.scale.minWidth = 320;
+    this.scale.minHeight = 480;
+    this.scale.maxWidth = 800;
+    this.scale.maxHeight = 600;
+    this.scale.refresh();
+    //this.input.onDown.add(this.goFull, this);
     this.setupBackground();
     this.setupPlayer();
     this.setupEnemies();

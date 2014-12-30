@@ -6,8 +6,8 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
 
   create: function () {
+    this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.input.onDown.add(this.goFull, this);
-
     this.setupBackground();
     this.setupPlayer();
     this.setupEnemies();
@@ -32,14 +32,7 @@ BasicGame.Game.prototype = {
   },
 
   goFull: function() {
-    if (this.scale.isFullScreen)
-    {
-        this.scale.stopFullScreen();
-    }
-    else
-    {
-        this.scale.startFullScreen(false);
-    }
+    this.scale.startFullScreen(false);
   },
 
   //
@@ -437,7 +430,6 @@ BasicGame.Game.prototype = {
         this.fire();
       }
     }
-
     if (this.input.keyboard.isDown(Phaser.Keyboard.X)) {
       this.shootBomb();
     }

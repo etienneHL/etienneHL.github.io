@@ -6,6 +6,8 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
 
   create: function () {
+    this.input.onDown.add(this.goFull, this);
+
     this.setupBackground();
     this.setupPlayer();
     this.setupEnemies();
@@ -27,6 +29,17 @@ BasicGame.Game.prototype = {
 
   render: function() {
     this.game.debug.body(this.player);
+  },
+
+  goFull: function() {
+    if (this.scale.isFullScreen)
+    {
+        this.scale.stopFullScreen();
+    }
+    else
+    {
+        this.scale.startFullScreen(false);
+    }
   },
 
   //

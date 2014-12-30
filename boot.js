@@ -40,7 +40,9 @@ var BasicGame = {
   INSTRUCTION_EXPIRE: Phaser.Timer.SECOND * 10,
   RETURN_MESSAGE_DELAY: Phaser.Timer.SECOND * 2,
 
-  PLAYER_BOMBS: 3
+  PLAYER_BOMBS: 3,
+
+  BOMB_DAMAGE: 5
 };
 
 BasicGame.Boot = function (game) {

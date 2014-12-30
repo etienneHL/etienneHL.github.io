@@ -224,8 +224,6 @@ BasicGame.Game.prototype = {
   }, 
 
   setupBombs: function() {
-
-
     this.bombBlast = this.add.sprite(0, 0, 'bombBlast');
     this.bombBlast.exists = false;
     this.bombEffectUntil = -1;
@@ -235,8 +233,7 @@ BasicGame.Game.prototype = {
     var firstBombIconX = 0 + 30;
     for (var i = 0 ; i < BasicGame.PLAYER_BOMBS; i++) {
        var bomb = this.bombsPool.create(firstBombIconX + (30 * i), 30, 'bombIcon');
-       bomb.anchor.setTo(0.5, 0.5);
-       
+       bomb.anchor.setTo(0.5, 0.5);  
     }
    
   }, 
@@ -610,6 +607,8 @@ BasicGame.Game.prototype = {
     if (this.time.now > this.bombEffectUntil) {
       this.bombEffectUntil = this.time.now + 200;
       this.bombBlast.exists = true;
+
+      this.enemyPool.forEach(damageEnemy, this, true, BOMB_DAMAGE)
       
     }
   }

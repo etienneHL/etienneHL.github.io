@@ -1,20 +1,20 @@
-async function redirection() {
-        const url =  "https://blog-7hp5u76fha-uc.a.run.app/healthcheck"
-        const response = await fetch(url, {
-        method: "GET", 
-        mode: "cors",   
-        cache: "no-cache",
-        headers: {"Content-Type": "application/json"}
+ let tryCount = 20
+ 
+ function redirect() {
+    if (tryCount <= 0) return
+
+    const url = "https://blog-7hp5u76fha-uc.a.run.app/"
+    fetch(url, {cache: "no-cache", mode: "no-cors"}).then(res => {
+        console.log(res, "res")
+        if (res.status != 404)
+        {
+            window.location = url
+        }
     })
 
-    const json = await response.json()
-    console.log(json, "json")
-    if (json.health)
-    {
-        window.location = "https://blog-7hp5u76fha-uc.a.run.app/"
-    }
+    tryCount--;
 }
 
-redirection()
+redirect()
 
-setInterval(redirection, 5000)
+setInterval(redirect, 5000)

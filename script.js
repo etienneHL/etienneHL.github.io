@@ -11,7 +11,7 @@
             window.location = url
         }
     }).catch(err => {
-        window.location = url
+        console.log(err, "error")
     })
 
     tryCount--;
